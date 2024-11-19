@@ -1,3 +1,4 @@
+import { time } from 'console'
 import type { CollectionAfterReadHook } from 'payload'
 import { User } from 'src/payload-types'
 
@@ -16,8 +17,8 @@ export const populateAuthors: CollectionAfterReadHook = async ({ doc, req, req: 
         depth: 0,
         req,
       })
-
-      authorDocs.push(authorDoc)
+      const fallbackAuthor: User = { id: 100, name: 'Arcanium', updatedAt: Date(), createdAt: Date(), email: 'arcanium.dev@gmail.com' }; // Example fallback object
+      authorDocs.push(authorDoc || fallbackAuthor);
     }
 
     doc.populatedAuthors = authorDocs.map((authorDoc) => ({
